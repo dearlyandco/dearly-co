@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p /Users/heejinchang/dearly-co/public/images)",
+      "Bash(cp ~/Desktop/dearly-co-website/BlessedSample.jpg /Users/heejinchang/dearly-co/public/images/BlessedSample.jpg)",
+      "Bash(mkdir -p /Users/heejinchang/dearly-co/app/components)",
+      "Bash(mkdir -p /Users/heejinchang/dearly-co/app/shop)",
+      "Bash(mkdir -p /Users/heejinchang/dearly-co/app/product/[slug])",
+      "Bash(npm run:*)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/shop)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/product/wildflower-family-sign)",
+      "Bash(pkill -f \"next dev\")"
+    ]
+  }
+}
