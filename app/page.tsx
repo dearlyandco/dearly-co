@@ -1,12 +1,21 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
+const HERO_PHOTOS = [
+  { src: "/images/Blessed.jpg",  name: "Blessed",  slug: "blessed" },
+  { src: "/images/Love.jpg",     name: "Love",     slug: "love" },
+  { src: "/images/MOM.jpg",      name: "Mom",      slug: "mom" },
+  { src: "/images/welcome.jpg",  name: "Welcome",  slug: "welcome" },
+];
+
 export default function Home() {
-  const frameNameRef = useRef<HTMLParagraphElement>(null);
+  const [heroIdx, setHeroIdx] = useState(0);
+  const [fading, setFading]   = useState(false);
 
   // Scroll reveal
   useEffect(() => {
@@ -26,22 +35,15 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
-  // Hero name cycling
+  // Hero photo cycling — fade out → swap → fade in
   useEffect(() => {
-    const names = ["Johnson", "Williams", "Anderson", "Martinez", "Thompson", "Davis"];
-    let idx = 0;
-    const el = frameNameRef.current;
-    if (!el) return;
     const interval = setInterval(() => {
-      idx = (idx + 1) % names.length;
-      el.style.opacity = "0";
-      el.style.transform = "translateY(8px)";
+      setFading(true);
       setTimeout(() => {
-        el.textContent = names[idx];
-        el.style.opacity = "1";
-        el.style.transform = "translateY(0)";
-      }, 300);
-    }, 2800);
+        setHeroIdx((i) => (i + 1) % HERO_PHOTOS.length);
+        setFading(false);
+      }, 500);
+    }, 3000);
     return () => clearInterval(interval);
   }, []);
 
@@ -74,15 +76,29 @@ export default function Home() {
           </div>
         </div>
         <div className="hero-image reveal" style={{ "--delay": "0.25s" } as React.CSSProperties}>
-          <div className="hero-frame">
-            <div className="hero-frame-inner">
-              <p className="frame-text">The</p>
-              <p className="frame-name" ref={frameNameRef}>Johnson</p>
-              <p className="frame-text">Family</p>
-              <div className="frame-divider"></div>
-              <p className="frame-year">Est. 2019</p>
+          <Link href={`/product/${HERO_PHOTOS[heroIdx].slug}`} className="hero-photo-wrap">
+            <Image
+              src={HERO_PHOTOS[heroIdx].src}
+              alt={HERO_PHOTOS[heroIdx].name}
+              fill
+              sizes="(max-width: 768px) 80vw, 400px"
+              style={{
+                objectFit: "cover",
+                opacity: fading ? 0 : 1,
+                transition: "opacity 0.5s ease",
+              }}
+              priority
+            />
+            <div className="hero-photo-label" style={{ opacity: fading ? 0 : 1, transition: "opacity 0.5s ease" }}>
+              {HERO_PHOTOS[heroIdx].name}
             </div>
-          </div>
+            {/* dot indicators */}
+            <div className="hero-photo-dots">
+              {HERO_PHOTOS.map((_, i) => (
+                <span key={i} className={`hero-dot${i === heroIdx ? " hero-dot--active" : ""}`} />
+              ))}
+            </div>
+          </Link>
         </div>
       </section>
 
