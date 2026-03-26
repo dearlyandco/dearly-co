@@ -1,50 +1,61 @@
 "use client";
 
 import { useState } from "react";
+import { useParams } from "next/navigation";
 import Link from "next/link";
-import Header from "../../components/Header";
+import Image from "next/image";
 
 type AccordionKey = "details" | "how" | "shipping" | "care";
 
+const PRODUCTS: Record<string, { name: string; image: string }> = {
+  blessed: { name: "Blessed",  image: "/images/Blessed.jpg" },
+  love:    { name: "Love",     image: "/images/Love.jpg" },
+  mom:     { name: "Mom",      image: "/images/MOM.jpg" },
+  welcome: { name: "Welcome",  image: "/images/welcome.jpg" },
+};
+
+const SIZES = [
+  { label: '7"×11"',  price: 49 },
+  { label: '11"×17"', price: 85 },
+];
+
+const STAND_PRICE = 6;
+
 export default function ProductDetailPage() {
-  const [activeThumb, setActiveThumb] = useState(0);
-  const [activeMaterial, setActiveMaterial] = useState(0);
-  const [activeSize, setActiveSize] = useState(1);
-  const [activeFloral, setActiveFloral] = useState(0);
-  const [qty, setQty] = useState(1);
-  const [persoText, setPersoText] = useState("");
+  const params = useParams();
+  const slug = typeof params.slug === "string" ? params.slug : "blessed";
+  const product = PRODUCTS[slug] ?? PRODUCTS["blessed"];
+
+  const [activeThumb, setActiveThumb]     = useState(0);
+  const [activeSize, setActiveSize]       = useState(0);
+  const [addStand, setAddStand]           = useState(false);
+  const [qty, setQty]                     = useState(1);
+  const [persoText, setPersoText]         = useState("");
+  const [persoError, setPersoError]       = useState(false);
   const [openAccordion, setOpenAccordion] = useState<AccordionKey | null>(null);
-  const [cartAdded, setCartAdded] = useState(false);
+  const [cartAdded, setCartAdded]         = useState(false);
 
-  const sizes = ['8 × 10"', '10 × 12"', '12 × 16"'];
-  const florals = ["Wildflower ①", "Wildflower ②", "Wildflower ③", "No Floral"];
-  const materials = [
-    { name: "Dark Wood", sub: "Walnut + Black", price: "$55" },
-    { name: "Light Wood", sub: "Maple + Natural", price: "$50" },
-    { name: "Acrylic", sub: "Clear + Gold", price: "$48" },
-  ];
+  const basePrice  = SIZES[activeSize].price;
+  const totalUnit  = basePrice + (addStand ? STAND_PRICE : 0);
+  const totalPrice = totalUnit * qty;
 
-  const toggleAccordion = (key: AccordionKey) => {
+  const toggleAccordion = (key: AccordionKey) =>
     setOpenAccordion((prev) => (prev === key ? null : key));
-  };
 
   const handleAddToCart = () => {
     if (!persoText.trim()) {
-      const el = document.getElementById("persoInput") as HTMLTextAreaElement;
-      if (el) {
-        el.focus();
-        el.style.borderColor = "#C9897A";
-        el.placeholder = "↑ Please enter your personalization text first";
-      }
+      setPersoError(true);
+      document.getElementById("persoInput")?.focus();
       return;
     }
+    setPersoError(false);
     setCartAdded(true);
     setTimeout(() => setCartAdded(false), 2500);
   };
 
   return (
     <>
-      {/* Simplified sticky header for product page */}
+      {/* Sticky header */}
       <header className="site-header">
         <Link href="/" className="site-logo">Dearly <span>&</span> Co.</Link>
         <nav className="site-nav">
@@ -64,28 +75,29 @@ export default function ProductDetailPage() {
                 key={i}
                 className={`thumb${activeThumb === i ? " active" : ""}`}
                 onClick={() => setActiveThumb(i)}
+                style={{ cursor: "pointer" }}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/images/BlessedSample.jpg"
-                  alt={`View ${i + 1}`}
-                  style={{
-                    width: "100%", height: "100%", objectFit: "cover",
-                    objectPosition: i === 0 ? "center" : i === 1 ? "center top" : "center bottom",
-                  }}
+                <Image
+                  src={product.image}
+                  alt={`${product.name} view ${i + 1}`}
+                  width={52}
+                  height={64}
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
               </div>
             ))}
           </div>
 
-          <div className="main-image" id="mainImg">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/BlessedSample.jpg"
-              alt="Blessed Wildflower Family Sign — Walnut Frame"
-              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
+          <div className="main-image">
+            <Image
+              src={product.image}
+              alt={product.name}
+              fill
+              sizes="50vw"
+              style={{ objectFit: "cover", objectPosition: "center" }}
+              priority
             />
-            <div className="img-badge">Wildflower Design · Walnut Frame</div>
+            <div className="img-badge">Laser Engraved · Made to Order</div>
           </div>
         </div>
 
@@ -97,10 +109,10 @@ export default function ProductDetailPage() {
             <span>/</span>
             <Link href="/shop">Shop</Link>
             <span>/</span>
-            Family Signs
+            {product.name}
           </div>
 
-          <h1 className="product-title-pd">Wildflower Family Sign</h1>
+          <h1 className="product-title-pd">{product.name}</h1>
           <p className="product-subtitle-pd">Laser Engraved · Wood &amp; Acrylic · Made to Order</p>
 
           <div className="product-rating">
@@ -108,9 +120,12 @@ export default function ProductDetailPage() {
             <span className="rating-text">4.9 · 127 reviews</span>
           </div>
 
+          {/* Dynamic price */}
           <div className="price-row">
-            <span className="price-main">$55.00</span>
-            <span className="price-note">Free shipping over $50</span>
+            <span className="price-main">${totalPrice.toFixed(2)}</span>
+            <span className="price-note">
+              {qty > 1 ? `$${totalUnit} × ${qty}` : "Free shipping over $50"}
+            </span>
           </div>
 
           <div className="trust-badges">
@@ -137,54 +152,38 @@ export default function ProductDetailPage() {
             </div>
           </div>
 
-          {/* Material */}
+          {/* Size */}
           <div className="option-block">
-            <span className="option-label">Material</span>
-            <div className="swatch-grid">
-              {materials.map((m, i) => (
+            <span className="option-label">Size</span>
+            <div className="swatch-grid" style={{ gridTemplateColumns: "repeat(2, 1fr)" }}>
+              {SIZES.map((s, i) => (
                 <div
                   key={i}
-                  className={`swatch-card${activeMaterial === i ? " active" : ""}`}
-                  onClick={() => setActiveMaterial(i)}
+                  className={`swatch-card${activeSize === i ? " active" : ""}`}
+                  onClick={() => setActiveSize(i)}
                 >
-                  <span className="swatch-name">{m.name}</span>
-                  <span className="swatch-sub">{m.sub}</span>
-                  <span className="swatch-price">{m.price}</span>
+                  <span className="swatch-name">{s.label}</span>
+                  <span className="swatch-price">${s.price}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Size */}
+          {/* Wood Stand add-on */}
           <div className="option-block">
-            <span className="option-label">Size</span>
-            <div className="option-pills">
-              {sizes.map((s, i) => (
-                <button
-                  key={i}
-                  className={`option-pill${activeSize === i ? " active" : ""}`}
-                  onClick={() => setActiveSize(i)}
-                >
-                  {s}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Floral Design */}
-          <div className="option-block">
-            <span className="option-label">Floral Design</span>
-            <div className="option-pills">
-              {florals.map((f, i) => (
-                <button
-                  key={i}
-                  className={`option-pill${activeFloral === i ? " active" : ""}`}
-                  onClick={() => setActiveFloral(i)}
-                >
-                  {f}
-                </button>
-              ))}
-            </div>
+            <span className="option-label">Add-Ons</span>
+            <label className="stand-addon">
+              <input
+                type="checkbox"
+                checked={addStand}
+                onChange={(e) => setAddStand(e.target.checked)}
+                className="stand-checkbox"
+              />
+              <span className="stand-label">
+                Add Wood Stand
+                <span className="stand-price">+${STAND_PRICE}</span>
+              </span>
+            </label>
           </div>
 
           {/* Personalization */}
@@ -198,13 +197,18 @@ export default function ProductDetailPage() {
               className="perso-input"
               rows={3}
               maxLength={120}
-              placeholder="e.g. THE JOHNSON FAMILY · Est. 2019"
+              placeholder="Enter your custom message, family name, quote, etc."
               value={persoText}
-              onChange={(e) => setPersoText(e.target.value)}
+              onChange={(e) => { setPersoText(e.target.value); setPersoError(false); }}
+              style={persoError ? { borderColor: "#C9897A" } : undefined}
             />
             <div className="perso-char">{persoText.length} / 120</div>
+            {persoError && (
+              <p style={{ fontSize: 11, color: "#C9897A", marginTop: 4 }}>
+                Please enter your personalization text before adding to cart.
+              </p>
+            )}
             <p className="perso-hint">
-              Enter your family name, couple&apos;s names, or any custom text.<br />
               A digital proof will be sent before production begins.
             </p>
           </div>
@@ -216,6 +220,30 @@ export default function ProductDetailPage() {
               <button className="qty-btn" onClick={() => setQty((q) => Math.max(1, q - 1))}>−</button>
               <div className="qty-num">{qty}</div>
               <button className="qty-btn" onClick={() => setQty((q) => q + 1)}>+</button>
+            </div>
+          </div>
+
+          {/* Total summary */}
+          <div className="price-summary">
+            <div className="price-summary-row">
+              <span>{SIZES[activeSize].label}</span>
+              <span>${basePrice}</span>
+            </div>
+            {addStand && (
+              <div className="price-summary-row">
+                <span>Wood Stand</span>
+                <span>+${STAND_PRICE}</span>
+              </div>
+            )}
+            {qty > 1 && (
+              <div className="price-summary-row">
+                <span>Qty × {qty}</span>
+                <span>${totalUnit} each</span>
+              </div>
+            )}
+            <div className="price-summary-total">
+              <span>Total</span>
+              <span>${totalPrice.toFixed(2)}</span>
             </div>
           </div>
 
@@ -238,51 +266,34 @@ export default function ProductDetailPage() {
           {/* Accordion */}
           <div className="accordion">
             {([
-              {
-                key: "details" as AccordionKey,
-                label: "Product Details",
-                content: (
-                  <ul>
-                    <li>Laser engraved and laser cut in our US studio</li>
-                    <li>Premium Baltic birch or maple wood substrate</li>
-                    <li>Gold acrylic lettering layered on black panel</li>
-                    <li>Oval walnut wood frame, sanded and finished</li>
-                    <li>Includes a small wood stand for tabletop display</li>
-                    <li>Hanging hardware included for wall mounting</li>
-                  </ul>
-                ),
-              },
-              {
-                key: "how" as AccordionKey,
-                label: "How It Works",
-                content: (
-                  <ul>
-                    <li>Place your order and fill in your personalization text</li>
-                    <li>We&apos;ll send a digital proof within 1–2 business days</li>
-                    <li>Once approved, production begins (3–5 business days)</li>
-                    <li>Shipped carefully in custom protective packaging</li>
-                  </ul>
-                ),
-              },
-              {
-                key: "shipping" as AccordionKey,
-                label: "Shipping & Returns",
-                content: (
-                  <p>All orders ship via USPS Priority or UPS Ground. Free shipping on orders over $50. Because every piece is made to order, we are unable to accept returns unless the item arrives damaged. Please reach out within 48 hours of delivery if there&apos;s an issue.</p>
-                ),
-              },
-              {
-                key: "care" as AccordionKey,
-                label: "Care Instructions",
-                content: (
-                  <ul>
-                    <li>Wipe gently with a dry or slightly damp cloth</li>
-                    <li>Avoid prolonged exposure to direct sunlight</li>
-                    <li>Keep away from high humidity environments</li>
-                    <li>Do not submerge in water</li>
-                  </ul>
-                ),
-              },
+              { key: "details" as AccordionKey, label: "Product Details", content: (
+                <ul>
+                  <li>Laser engraved and laser cut in our US studio</li>
+                  <li>Premium Baltic birch or maple wood substrate</li>
+                  <li>Gold acrylic lettering layered on black panel</li>
+                  <li>Hanging hardware included for wall mounting</li>
+                  <li>Optional wood stand for tabletop display</li>
+                </ul>
+              )},
+              { key: "how" as AccordionKey, label: "How It Works", content: (
+                <ul>
+                  <li>Place your order and fill in your personalization text</li>
+                  <li>We&apos;ll send a digital proof within 1–2 business days</li>
+                  <li>Once approved, production begins (3–5 business days)</li>
+                  <li>Shipped carefully in custom protective packaging</li>
+                </ul>
+              )},
+              { key: "shipping" as AccordionKey, label: "Shipping & Returns", content: (
+                <p>All orders ship via USPS Priority or UPS Ground. Free shipping on orders over $50. Because every piece is made to order, we are unable to accept returns unless the item arrives damaged. Please reach out within 48 hours of delivery if there&apos;s an issue.</p>
+              )},
+              { key: "care" as AccordionKey, label: "Care Instructions", content: (
+                <ul>
+                  <li>Wipe gently with a dry or slightly damp cloth</li>
+                  <li>Avoid prolonged exposure to direct sunlight</li>
+                  <li>Keep away from high humidity environments</li>
+                  <li>Do not submerge in water</li>
+                </ul>
+              )},
             ]).map(({ key, label, content }) => (
               <div key={key} className={`accordion-item${openAccordion === key ? " open" : ""}`}>
                 <button className="accordion-trigger" onClick={() => toggleAccordion(key)}>

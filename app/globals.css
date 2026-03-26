@@ -601,6 +601,89 @@ em { font-style: italic; color: var(--rose); }
 .empty-state p:first-child { font-size: 32px; color: var(--gold); margin-bottom: 12px; }
 .empty-state h3 { font-family: var(--font-display), Georgia, serif; font-size: 28px; color: var(--deep-rose); margin-bottom: 8px; }
 
+/* ---- 2×2 real-photo grid ---- */
+.shop-grid-2x2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.shop-card-img-link { display: block; }
+.shop-card-photo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--blush);
+}
+.shop-card-photo img { transition: transform 0.5s ease; }
+.shop-card:hover .shop-card-photo img { transform: scale(1.04); }
+.shop-card .shop-card-body h3 {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 22px;
+  color: var(--deep-rose);
+  margin-bottom: 10px;
+  font-weight: 400;
+}
+
+/* ---- Stand add-on ---- */
+.stand-addon {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 12px 14px;
+  border: 1px solid rgba(61,34,32,0.1);
+  border-radius: 3px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.stand-addon:hover { border-color: var(--rose); background: var(--ivory); }
+.stand-checkbox {
+  width: 16px; height: 16px;
+  accent-color: var(--deep-rose);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.stand-label {
+  font-size: 13px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.stand-price {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 14px;
+  color: var(--gold);
+}
+
+/* ---- Price summary ---- */
+.price-summary {
+  background: var(--ivory);
+  border: 1px solid rgba(201,137,122,0.2);
+  border-radius: 3px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+}
+.price-summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-light);
+  padding: 3px 0;
+}
+.price-summary-total {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 20px;
+  color: var(--deep-rose);
+  border-top: 1px solid rgba(201,137,122,0.2);
+  margin-top: 8px;
+  padding-top: 8px;
+}
+
 /* ---- Shop Responsive ---- */
 @media (max-width: 1024px) { .shop-grid { grid-template-columns: repeat(3,1fr); } }
 @media (max-width: 768px) {
