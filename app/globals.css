@@ -251,7 +251,7 @@ em { font-style: italic; color: var(--rose); }
 }
 .hero-photo-label {
   position: absolute;
-  bottom: 16px;
+  top: 16px;
   left: 16px;
   font-family: var(--font-display), Georgia, serif;
   font-size: 22px;
