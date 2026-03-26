@@ -364,7 +364,7 @@ export default function Home() {
         <div className="section-header reveal">
           <p className="section-eyebrow">Follow Along</p>
           <h2 className="section-title">Made with love,<br /><em>shared with joy.</em></h2>
-          <a href="https://instagram.com/dearlyandco" target="_blank" rel="noopener noreferrer" className="insta-handle">@dearlyandco</a>
+          <a href="https://instagram.com/dearlynco" target="_blank" rel="noopener noreferrer" className="insta-handle">@dearlynco</a>
         </div>
         <div className="insta-grid">
           {[
@@ -377,7 +377,7 @@ export default function Home() {
           ].map((tile, i) => (
             <a
               key={i}
-              href="https://instagram.com/dearlyandco"
+              href="https://instagram.com/dearlynco"
               target="_blank"
               rel="noopener noreferrer"
               className="insta-tile reveal"
@@ -395,7 +395,7 @@ export default function Home() {
           ))}
         </div>
         <div className="insta-follow reveal">
-          <a href="https://instagram.com/dearlyandco" target="_blank" rel="noopener noreferrer" className="btn btn--outline">Follow on Instagram</a>
+          <a href="https://instagram.com/dearlynco" target="_blank" rel="noopener noreferrer" className="btn btn--outline">Follow on Instagram</a>
         </div>
       </section>
 
