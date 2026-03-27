@@ -270,7 +270,7 @@ export default function ProductDetailPage() {
               { key: "details" as AccordionKey, label: "Product Details", content: (
                 <ul>
                   <li>Laser engraved and laser cut in our studio</li>
-                  <li>Painted baltic birch wood background, stained baltic birch wood frame, biotic birch wood wildflowers and main lettering, engraved personalized messages</li>
+                  <li>Handcrafted from baltic birch wood with painted background, stained frame, and laser-cut wildflower details — finished with an engraved personal message</li>
                   <li>Hanging hardware included for wall mounting</li>
                   <li>Optional wood stand for tabletop display</li>
                 </ul>
