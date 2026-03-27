@@ -10,7 +10,7 @@ type AccordionKey = "details" | "how" | "shipping" | "care";
 const PRODUCTS: Record<string, { name: string; images: string[] }> = {
   blessed: { name: "Blessed",  images: ["/images/Blessed.jpg", "/images/insta12.jpg", "/images/insta15.jpg", "/images/insta17.jpg"] },
   love:    { name: "Love",     images: ["/images/Love.jpg"] },
-  mom:     { name: "Mom",      images: ["/images/MOM.jpg"] },
+  mom:     { name: "Mom",      images: ["/images/MOM.jpg", "/images/insta14.jpg", "/images/insta11.jpg", "/images/insta06.jpg"] },
   welcome: { name: "Welcome",  images: ["/images/welcome.jpg"] },
 };
 
