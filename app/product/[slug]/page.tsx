@@ -11,7 +11,7 @@ const PRODUCTS: Record<string, { name: string; images: string[] }> = {
   blessed: { name: "Blessed",  images: ["/images/Blessed.jpg", "/images/insta12.jpg", "/images/insta15.jpg", "/images/insta17.jpg"] },
   love:    { name: "Love",     images: ["/images/Love.jpg", "/images/insta13.jpg", "/images/insta05.jpg", "/images/insta03.jpg"] },
   mom:     { name: "Mom",      images: ["/images/MOM.jpg", "/images/insta14.jpg", "/images/insta11.jpg", "/images/insta06.jpg"] },
-  welcome: { name: "Welcome",  images: ["/images/welcome.jpg"] },
+  welcome: { name: "Welcome",  images: ["/images/welcome.jpg", "/images/insta16.jpg", "/images/insta10.jpg", "/images/insta09.jpg", "/images/insta07.jpg"] },
 };
 
 const SIZES = [
