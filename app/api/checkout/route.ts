@@ -33,6 +33,7 @@ export async function POST(req: NextRequest) {
       payment_method_types: ["card"],
       line_items,
       mode: "payment",
+      automatic_tax: { enabled: true },
       success_url: `${req.headers.get("origin")}/checkout/success`,
       cancel_url: `${req.headers.get("origin")}/cart`,
       shipping_address_collection: { allowed_countries: ["US"] },
