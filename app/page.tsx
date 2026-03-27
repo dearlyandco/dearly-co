@@ -161,7 +161,7 @@ export default function Home() {
         <div className="products-grid products-grid--2x2">
           <article className="product-card reveal" style={{ "--delay": "0s" } as React.CSSProperties}>
             <div className="product-img product-img--photo">
-              <Image src="/images/Blessed.jpg" alt="Blessed sign" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: "cover" }} />
+              <Image src="/images/Blessed.jpg" alt="Blessed sign" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: "contain" }} />
             </div>
             <div className="product-info">
               <h3>Blessed</h3>
@@ -174,7 +174,7 @@ export default function Home() {
           </article>
           <article className="product-card reveal" style={{ "--delay": "0.1s" } as React.CSSProperties}>
             <div className="product-img product-img--photo">
-              <Image src="/images/Love.jpg" alt="Love sign" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: "cover" }} />
+              <Image src="/images/Love.jpg" alt="Love sign" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: "contain" }} />
             </div>
             <div className="product-info">
               <h3>Love</h3>
@@ -187,7 +187,7 @@ export default function Home() {
           </article>
           <article className="product-card reveal" style={{ "--delay": "0.2s" } as React.CSSProperties}>
             <div className="product-img product-img--photo">
-              <Image src="/images/MOM.jpg" alt="Mom sign" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: "cover" }} />
+              <Image src="/images/MOM.jpg" alt="Mom sign" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: "contain" }} />
             </div>
             <div className="product-info">
               <h3>Mom</h3>
@@ -200,7 +200,7 @@ export default function Home() {
           </article>
           <article className="product-card reveal" style={{ "--delay": "0.3s" } as React.CSSProperties}>
             <div className="product-img product-img--photo">
-              <Image src="/images/welcome.jpg" alt="Welcome sign" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: "cover" }} />
+              <Image src="/images/welcome.jpg" alt="Welcome sign" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: "contain" }} />
             </div>
             <div className="product-info">
               <h3>Welcome</h3>
