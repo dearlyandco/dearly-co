@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { useCart } from "../../context/CartContext";
+import { useRouter } from "next/navigation";
 
 type AccordionKey = "details" | "how" | "shipping" | "care";
 
@@ -25,6 +27,8 @@ export default function ProductDetailPage() {
   const params = useParams();
   const slug = typeof params.slug === "string" ? params.slug : "blessed";
   const product = PRODUCTS[slug] ?? PRODUCTS["blessed"];
+  const { addItem, totalCount } = useCart();
+  const router = useRouter();
 
   const [activeThumb, setActiveThumb]     = useState(0);
   useEffect(() => { setActiveThumb(0); }, [slug]);
@@ -50,66 +54,64 @@ export default function ProductDetailPage() {
       return;
     }
     setPersoError(false);
+    addItem({
+      slug,
+      name: product.name,
+      size: SIZES[activeSize].label,
+      price: SIZES[activeSize].price,
+      qty,
+      addStand,
+      standPrice: STAND_PRICE,
+      persoText,
+      image: product.images[0],
+    });
     setCartAdded(true);
     setTimeout(() => setCartAdded(false), 2500);
   };
 
   return (
     <>
-      {/* Sticky header */}
       <header className="site-header">
         <Link href="/" className="site-logo">Dearly <span>&</span> Co.</Link>
         <nav className="site-nav">
           <Link href="/shop">Shop</Link>
           <Link href="/#about">Our Story</Link>
           <Link href="/#how">How It Works</Link>
+          <Link href="/cart" style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 01-8 0"/>
+            </svg>
+            {totalCount > 0 && (
+              <span style={{ position: "absolute", top: -6, right: -8, background: "#5a3e36", color: "#fff", borderRadius: "50%", width: 16, height: 16, fontSize: 9, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-body)" }}>
+                {totalCount}
+              </span>
+            )}
+          </Link>
         </nav>
       </header>
 
       <div className="product-page">
 
-        {/* LEFT: Image Gallery */}
         <div className="product-gallery">
           <div className="thumb-strip">
             {product.images.map((src, i) => (
-              <div
-                key={i}
-                className={`thumb${activeThumb === i ? " active" : ""}`}
-                onClick={() => setActiveThumb(i)}
-                style={{ cursor: "pointer" }}
-              >
-                <Image
-                  src={src}
-                  alt={`${product.name} view ${i + 1}`}
-                  width={52}
-                  height={64}
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
+              <div key={i} className={`thumb${activeThumb === i ? " active" : ""}`} onClick={() => setActiveThumb(i)} style={{ cursor: "pointer" }}>
+                <Image src={src} alt={`${product.name} view ${i + 1}`} width={52} height={64} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
             ))}
           </div>
-
           <div className="main-image">
-            <Image
-              src={product.images[activeThumb] ?? product.images[0]}
-              alt={product.name}
-              fill
-              sizes="50vw"
-              style={{ objectFit: "contain", objectPosition: "center" }}
-              priority
-            />
+            <Image src={product.images[activeThumb] ?? product.images[0]} alt={product.name} fill sizes="50vw" style={{ objectFit: "contain", objectPosition: "center" }} priority />
             <div className="img-badge">Laser Engraved · Made to Order</div>
           </div>
         </div>
 
-        {/* RIGHT: Product Info */}
         <div className="product-info-panel">
-
           <div className="info-crumb">
-            <Link href="/">Home</Link>
-            <span>/</span>
-            <Link href="/shop">Shop</Link>
-            <span>/</span>
+            <Link href="/">Home</Link><span>/</span>
+            <Link href="/shop">Shop</Link><span>/</span>
             {product.name}
           </div>
 
@@ -121,29 +123,21 @@ export default function ProductDetailPage() {
             <span className="rating-text">4.9 · 127 reviews</span>
           </div>
 
-          {/* Dynamic price */}
           <div className="price-row">
             <span className="price-main">${totalPrice.toFixed(2)}</span>
-            <span className="price-note">
-              {qty > 1 ? `$${totalUnit} × ${qty}` : "Free shipping over $50"}
-            </span>
+            <span className="price-note">{qty > 1 ? `$${totalUnit} × ${qty}` : "Free shipping over $50"}</span>
           </div>
 
           <div className="trust-badges">
             <div className="badge-item">
               <div className="badge-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                </svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
               </div>
               Secure, encrypted checkout
             </div>
             <div className="badge-item">
               <div className="badge-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <rect x="2" y="7" width="20" height="14" rx="2"/>
-                  <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
-                </svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
               </div>
               Ships in 3–5 business days
             </div>
@@ -153,16 +147,11 @@ export default function ProductDetailPage() {
             </div>
           </div>
 
-          {/* Size */}
           <div className="option-block">
             <span className="option-label">Size</span>
             <div className="swatch-grid" style={{ gridTemplateColumns: "repeat(2, 1fr)" }}>
               {SIZES.map((s, i) => (
-                <div
-                  key={i}
-                  className={`swatch-card${activeSize === i ? " active" : ""}`}
-                  onClick={() => setActiveSize(i)}
-                >
+                <div key={i} className={`swatch-card${activeSize === i ? " active" : ""}`} onClick={() => setActiveSize(i)}>
                   <span className="swatch-name">{s.label}</span>
                   <span className="swatch-price">${s.price}</span>
                 </div>
@@ -170,51 +159,30 @@ export default function ProductDetailPage() {
             </div>
           </div>
 
-          {/* Wood Stand add-on */}
           <div className="option-block">
             <span className="option-label">Add-Ons</span>
             <label className="stand-addon">
-              <input
-                type="checkbox"
-                checked={addStand}
-                onChange={(e) => setAddStand(e.target.checked)}
-                className="stand-checkbox"
-              />
-              <span className="stand-label">
-                Add Wood Stand
-                <span className="stand-price">+${STAND_PRICE}</span>
-              </span>
+              <input type="checkbox" checked={addStand} onChange={(e) => setAddStand(e.target.checked)} className="stand-checkbox" />
+              <span className="stand-label">Add Wood Stand<span className="stand-price">+${STAND_PRICE}</span></span>
             </label>
           </div>
 
-          {/* Personalization */}
           <div className="personalization-block">
             <div className="perso-header">
               <span className="perso-label">Personalization</span>
               <span className="perso-required">Required</span>
             </div>
-            <textarea
-              id="persoInput"
-              className="perso-input"
-              rows={3}
-              maxLength={120}
+            <textarea id="persoInput" className="perso-input" rows={3} maxLength={120}
               placeholder="Enter your custom message, family name, quote, etc."
               value={persoText}
               onChange={(e) => { setPersoText(e.target.value); setPersoError(false); }}
               style={persoError ? { borderColor: "#C9897A" } : undefined}
             />
             <div className="perso-char">{persoText.length} / 120</div>
-            {persoError && (
-              <p style={{ fontSize: 11, color: "#C9897A", marginTop: 4 }}>
-                Please enter your personalization text before adding to cart.
-              </p>
-            )}
-            <p className="perso-hint">
-              A digital proof will be sent before production begins.
-            </p>
+            {persoError && <p style={{ fontSize: 11, color: "#C9897A", marginTop: 4 }}>Please enter your personalization text before adding to cart.</p>}
+            <p className="perso-hint">A digital proof will be sent before production begins.</p>
           </div>
 
-          {/* Qty */}
           <div className="qty-row">
             <span className="qty-label">Quantity</span>
             <div className="qty-control">
@@ -224,47 +192,27 @@ export default function ProductDetailPage() {
             </div>
           </div>
 
-          {/* Total summary */}
           <div className="price-summary">
-            <div className="price-summary-row">
-              <span>{SIZES[activeSize].label}</span>
-              <span>${basePrice}</span>
-            </div>
-            {addStand && (
-              <div className="price-summary-row">
-                <span>Wood Stand</span>
-                <span>+${STAND_PRICE}</span>
-              </div>
-            )}
-            {qty > 1 && (
-              <div className="price-summary-row">
-                <span>Qty × {qty}</span>
-                <span>${totalUnit} each</span>
-              </div>
-            )}
-            <div className="price-summary-total">
-              <span>Total</span>
-              <span>${totalPrice.toFixed(2)}</span>
-            </div>
+            <div className="price-summary-row"><span>{SIZES[activeSize].label}</span><span>${basePrice}</span></div>
+            {addStand && <div className="price-summary-row"><span>Wood Stand</span><span>+${STAND_PRICE}</span></div>}
+            {qty > 1 && <div className="price-summary-row"><span>Qty × {qty}</span><span>${totalUnit} each</span></div>}
+            <div className="price-summary-total"><span>Total</span><span>${totalPrice.toFixed(2)}</span></div>
           </div>
 
-          {/* CTA */}
           <div className="cta-stack">
-            <button
-              className="btn-cart"
-              onClick={handleAddToCart}
-              style={cartAdded ? { background: "#22c55e" } : undefined}
-            >
+            <button className="btn-cart" onClick={handleAddToCart} style={cartAdded ? { background: "#22c55e" } : undefined}>
               {cartAdded ? "✓  Added to Cart" : "Add to Cart"}
             </button>
+            {cartAdded && (
+              <button onClick={() => router.push("/cart")} style={{ marginTop: 8, width: "100%", padding: "12px 0", background: "none", border: "1px solid #5a3e36", borderRadius: 4, fontFamily: "var(--font-body)", fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase", color: "#5a3e36", cursor: "pointer" }}>
+                View Cart
+              </button>
+            )}
             <button className="btn-wishlist">♡ &nbsp; Save to Wishlist</button>
           </div>
 
-          <p className="shipping-note">
-            Free shipping on orders over $50 · <a href="#">View shipping policy</a>
-          </p>
+          <p className="shipping-note">Free shipping on orders over $50 · <a href="#">View shipping policy</a></p>
 
-          {/* Accordion */}
           <div className="accordion">
             {([
               { key: "details" as AccordionKey, label: "Product Details", content: (
@@ -304,7 +252,6 @@ export default function ProductDetailPage() {
               </div>
             ))}
           </div>
-
         </div>
       </div>
     </>
