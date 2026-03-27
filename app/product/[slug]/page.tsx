@@ -269,9 +269,8 @@ export default function ProductDetailPage() {
             {([
               { key: "details" as AccordionKey, label: "Product Details", content: (
                 <ul>
-                  <li>Laser engraved and laser cut in our US studio</li>
-                  <li>Premium Baltic birch or maple wood substrate</li>
-                  <li>Gold acrylic lettering layered on black panel</li>
+                  <li>Laser engraved and laser cut in our studio</li>
+                  <li>Painted baltic birch wood background, stained baltic birch wood frame, biotic birch wood wildflowers and main lettering, engraved personalized messages</li>
                   <li>Hanging hardware included for wall mounting</li>
                   <li>Optional wood stand for tabletop display</li>
                 </ul>
