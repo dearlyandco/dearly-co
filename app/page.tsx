@@ -147,7 +147,7 @@ export default function Home() {
               </svg>
             </div>
             <h3>Made with Love</h3>
-            <p>Woman-owned and small-batch. Every order is handled with genuine care and pride.</p>
+            <p>Family-owned and small-batch. Every order is handled with genuine care and pride.</p>
           </div>
         </div>
       </section>
@@ -158,102 +158,56 @@ export default function Home() {
           <p className="section-eyebrow">Our Collection</p>
           <h2 className="section-title">Crafted with love,<br /><em>made just for them.</em></h2>
         </div>
-        <div className="products-grid">
+        <div className="products-grid products-grid--2x2">
           <article className="product-card reveal" style={{ "--delay": "0s" } as React.CSSProperties}>
-            <div className="product-img product-img--1">
-              <div className="product-mock">
-                <span className="mock-label">Home</span>
-                <span className="mock-name">The Williams</span>
-                <span className="mock-sub">Est. 2015</span>
-              </div>
+            <div className="product-img product-img--photo">
+              <Image src="/images/Blessed.jpg" alt="Blessed sign" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: "cover" }} />
             </div>
             <div className="product-info">
-              <h3>Family Name Sign</h3>
-              <p>Custom wood engraved family sign — a timeless piece for any home.</p>
+              <h3>Blessed</h3>
+              <p>A personalized family blessing sign</p>
               <div className="product-footer">
-                <span className="price">From $42</span>
-                <Link href="/shop" className="btn-link">Customize →</Link>
+                <span className="price">From $49</span>
+                <Link href="/product/blessed" className="btn-link">Customize →</Link>
               </div>
             </div>
           </article>
           <article className="product-card reveal" style={{ "--delay": "0.1s" } as React.CSSProperties}>
-            <div className="product-img product-img--2">
-              <div className="product-mock product-mock--acrylic">
-                <span className="mock-name mock-name--lg">Emma</span>
-              </div>
+            <div className="product-img product-img--photo">
+              <Image src="/images/Love.jpg" alt="Love sign" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: "cover" }} />
             </div>
             <div className="product-info">
-              <h3>Kids Name Sign</h3>
-              <p>Acrylic name sign for nurseries &amp; kids&apos; rooms. Soft, modern, magical.</p>
+              <h3>Love</h3>
+              <p>A heartfelt scripture or quote sign</p>
               <div className="product-footer">
-                <span className="price">From $35</span>
-                <Link href="/shop" className="btn-link">Customize →</Link>
+                <span className="price">From $49</span>
+                <Link href="/product/love" className="btn-link">Customize →</Link>
               </div>
             </div>
           </article>
           <article className="product-card reveal" style={{ "--delay": "0.2s" } as React.CSSProperties}>
-            <div className="product-img product-img--3">
-              <div className="product-mock">
-                <span className="mock-label">Welcome to</span>
-                <span className="mock-name">Our Home</span>
-              </div>
+            <div className="product-img product-img--photo">
+              <Image src="/images/MOM.jpg" alt="Mom sign" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: "cover" }} />
             </div>
             <div className="product-info">
-              <h3>Welcome Home Sign</h3>
-              <p>Laser-cut wooden welcome sign, perfect for entryways &amp; front porches.</p>
+              <h3>Mom</h3>
+              <p>A beautiful gift for mom</p>
               <div className="product-footer">
-                <span className="price">From $38</span>
-                <Link href="/shop" className="btn-link">Customize →</Link>
+                <span className="price">From $49</span>
+                <Link href="/product/mom" className="btn-link">Customize →</Link>
               </div>
             </div>
           </article>
-          <article className="product-card reveal" style={{ "--delay": "0s" } as React.CSSProperties}>
-            <div className="product-img product-img--4">
-              <div className="product-mock product-mock--dark">
-                <span className="mock-label mock-label--light">♡</span>
-                <span className="mock-name mock-name--light">Master</span>
-                <span className="mock-sub mock-sub--light">Bedroom</span>
-              </div>
+          <article className="product-card reveal" style={{ "--delay": "0.3s" } as React.CSSProperties}>
+            <div className="product-img product-img--photo">
+              <Image src="/images/welcome.jpg" alt="Welcome sign" fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: "cover" }} />
             </div>
             <div className="product-info">
-              <h3>Room Sign</h3>
-              <p>Elegant acrylic room signs for every space — kitchen, nursery, office &amp; more.</p>
+              <h3>Welcome</h3>
+              <p>A personalized welcome sign for your home</p>
               <div className="product-footer">
-                <span className="price">From $28</span>
-                <Link href="/shop" className="btn-link">Customize →</Link>
-              </div>
-            </div>
-          </article>
-          <article className="product-card reveal" style={{ "--delay": "0.1s" } as React.CSSProperties}>
-            <div className="product-img product-img--5">
-              <div className="product-mock">
-                <span className="mock-label">Established</span>
-                <span className="mock-name">2024</span>
-                <span className="mock-sub">Mr. &amp; Mrs. Carter</span>
-              </div>
-            </div>
-            <div className="product-info">
-              <h3>Wedding Sign</h3>
-              <p>Celebrate forever with a custom engraved wedding or anniversary sign.</p>
-              <div className="product-footer">
-                <span className="price">From $55</span>
-                <Link href="/shop" className="btn-link">Customize →</Link>
-              </div>
-            </div>
-          </article>
-          <article className="product-card reveal" style={{ "--delay": "0.2s" } as React.CSSProperties}>
-            <div className="product-img product-img--6">
-              <div className="product-mock product-mock--acrylic">
-                <span className="mock-label">with love,</span>
-                <span className="mock-name mock-name--md">Grandma&apos;s Kitchen</span>
-              </div>
-            </div>
-            <div className="product-info">
-              <h3>Kitchen Sign</h3>
-              <p>Warm, personalized kitchen décor in rich wood or clear acrylic.</p>
-              <div className="product-footer">
-                <span className="price">From $32</span>
-                <Link href="/shop" className="btn-link">Customize →</Link>
+                <span className="price">From $49</span>
+                <Link href="/product/welcome" className="btn-link">Customize →</Link>
               </div>
             </div>
           </article>
@@ -276,7 +230,7 @@ export default function Home() {
           <h2 className="section-title">Born from a love of<br /><em>meaningful gifting.</em></h2>
           <p>Dearly &amp; Co. started with a simple belief — the best gifts aren&apos;t bought, they&apos;re made. Made with thought, with care, with a name or a date that means everything to someone.</p>
           <p>Every sign we create is laser engraved or cut in our studio from premium wood and acrylic. No two are exactly alike, because no two families, homes, or stories are either.</p>
-          <p>We&apos;re a small, women-owned shop based in the US — and every order is made with the same love you put into giving it.</p>
+          <p>We&apos;re a small, family-owned shop based in the US — and every order is made with the same love you put into giving it.</p>
           <a href="#" className="btn btn--outline">Meet the Maker</a>
         </div>
       </section>
@@ -308,54 +262,6 @@ export default function Home() {
             <h3>We Create &amp; Ship</h3>
             <p>Your piece is handcrafted and carefully packaged. Ready to gift, ready to hang, ready to love.</p>
           </div>
-        </div>
-      </section>
-
-      {/* REVIEWS */}
-      <section className="section reviews" id="reviews">
-        <div className="section-header reveal">
-          <p className="section-eyebrow">Customer Love</p>
-          <h2 className="section-title">What families<br /><em>are saying.</em></h2>
-        </div>
-        <div className="reviews-grid">
-          <div className="review-card reveal" style={{ "--delay": "0s" } as React.CSSProperties}>
-            <div className="review-stars">★★★★★</div>
-            <p className="review-text">&ldquo;I ordered the family name sign for our new home and it&apos;s absolutely stunning. Better than the photos. Everyone asks where I got it.&rdquo;</p>
-            <div className="review-author">
-              <div className="review-avatar">S</div>
-              <div>
-                <p className="review-name">Sarah M.</p>
-                <p className="review-loc">Austin, TX</p>
-              </div>
-            </div>
-          </div>
-          <div className="review-card review-card--featured reveal" style={{ "--delay": "0.15s" } as React.CSSProperties}>
-            <div className="review-stars">★★★★★</div>
-            <p className="review-text">&ldquo;Bought this as a baby shower gift and the mom cried. The quality is incredible — you can feel how much care went into making it. Will be ordering again!&rdquo;</p>
-            <div className="review-author">
-              <div className="review-avatar">J</div>
-              <div>
-                <p className="review-name">Jessica L.</p>
-                <p className="review-loc">Nashville, TN</p>
-              </div>
-            </div>
-          </div>
-          <div className="review-card reveal" style={{ "--delay": "0.3s" } as React.CSSProperties}>
-            <div className="review-stars">★★★★★</div>
-            <p className="review-text">&ldquo;The kids&apos; name signs for my twins&apos; room are perfect. Fast shipping, beautiful packaging, and exactly what I envisioned. Dearly &amp; Co. is my go-to!&rdquo;</p>
-            <div className="review-author">
-              <div className="review-avatar">M</div>
-              <div>
-                <p className="review-name">Michelle R.</p>
-                <p className="review-loc">Charlotte, NC</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="reviews-stat reveal">
-          <span>✦ 500+ happy families</span>
-          <span>✦ 4.9 average rating</span>
-          <span>✦ Ships in 3–5 days</span>
         </div>
       </section>
 

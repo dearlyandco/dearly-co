@@ -314,9 +314,11 @@ em { font-style: italic; color: var(--rose); }
 /* ============ PRODUCTS ============ */
 .products { background: var(--ivory); }
 .products-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 32px; max-width: var(--max-width); margin: 0 auto; }
+.products-grid--2x2 { grid-template-columns: repeat(2,1fr); }
 .product-card { background: var(--white); border-radius: var(--radius); overflow: hidden; transition: transform 0.35s ease, box-shadow 0.35s ease; border: 1px solid rgba(237,213,200,0.5); }
 .product-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(61,34,32,0.1); }
 .product-img { height: 240px; display: flex; align-items: center; justify-content: center; }
+.product-img--photo { position: relative; height: 280px; overflow: hidden; }
 .product-img--1 { background: linear-gradient(135deg,#EDD5C8,#C9897A); }
 .product-img--2 { background: linear-gradient(135deg,#F7F3EC,#EDD5C8); }
 .product-img--3 { background: linear-gradient(135deg,#C9897A,#3D2220); }
