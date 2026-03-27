@@ -1,17 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
 type AccordionKey = "details" | "how" | "shipping" | "care";
 
-const PRODUCTS: Record<string, { name: string; image: string }> = {
-  blessed: { name: "Blessed",  image: "/images/Blessed.jpg" },
-  love:    { name: "Love",     image: "/images/Love.jpg" },
-  mom:     { name: "Mom",      image: "/images/MOM.jpg" },
-  welcome: { name: "Welcome",  image: "/images/welcome.jpg" },
+const PRODUCTS: Record<string, { name: string; images: string[] }> = {
+  blessed: { name: "Blessed",  images: ["/images/Blessed.jpg", "/images/insta12.jpg", "/images/insta15.jpg", "/images/insta17.jpg"] },
+  love:    { name: "Love",     images: ["/images/Love.jpg"] },
+  mom:     { name: "Mom",      images: ["/images/MOM.jpg"] },
+  welcome: { name: "Welcome",  images: ["/images/welcome.jpg"] },
 };
 
 const SIZES = [
@@ -27,6 +27,7 @@ export default function ProductDetailPage() {
   const product = PRODUCTS[slug] ?? PRODUCTS["blessed"];
 
   const [activeThumb, setActiveThumb]     = useState(0);
+  useEffect(() => { setActiveThumb(0); }, [slug]);
   const [activeSize, setActiveSize]       = useState(0);
   const [addStand, setAddStand]           = useState(false);
   const [qty, setQty]                     = useState(1);
@@ -70,7 +71,7 @@ export default function ProductDetailPage() {
         {/* LEFT: Image Gallery */}
         <div className="product-gallery">
           <div className="thumb-strip">
-            {[0, 1, 2].map((i) => (
+            {product.images.map((src, i) => (
               <div
                 key={i}
                 className={`thumb${activeThumb === i ? " active" : ""}`}
@@ -78,7 +79,7 @@ export default function ProductDetailPage() {
                 style={{ cursor: "pointer" }}
               >
                 <Image
-                  src={product.image}
+                  src={src}
                   alt={`${product.name} view ${i + 1}`}
                   width={52}
                   height={64}
@@ -90,11 +91,11 @@ export default function ProductDetailPage() {
 
           <div className="main-image">
             <Image
-              src={product.image}
+              src={product.images[activeThumb] ?? product.images[0]}
               alt={product.name}
               fill
               sizes="50vw"
-              style={{ objectFit: "cover", objectPosition: "center" }}
+              style={{ objectFit: "contain", objectPosition: "center" }}
               priority
             />
             <div className="img-badge">Laser Engraved · Made to Order</div>
