@@ -1,13 +1,31 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useCart } from "../../context/CartContext";
 
 export default function SuccessPage() {
-  const { clearCart } = useCart();
+  const { items, totalPrice, clearCart } = useCart();
+  const emailSent = useRef(false);
 
   useEffect(() => {
+    if (emailSent.current || items.length === 0) return;
+    emailSent.current = true;
+
+    const orderId = Math.random().toString(36).slice(-8).toUpperCase();
+
+    fetch("/api/send-confirmation", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        customerEmail: "hyejin31@gmail.com",
+        customerName: "Customer",
+        items,
+        total: totalPrice.toFixed(2),
+        orderId,
+      }),
+    });
+
     clearCart();
   }, []);
 
