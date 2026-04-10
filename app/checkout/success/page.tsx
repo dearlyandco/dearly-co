@@ -1,15 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCart } from "../../context/CartContext";
 
 export default function SuccessPage() {
   const { items, totalPrice, clearCart } = useCart();
   const emailSent = useRef(false);
+  const [savedItems] = useState(items);
+  const [savedTotal] = useState(totalPrice);
 
   useEffect(() => {
-    if (emailSent.current || items.length === 0) return;
+    if (emailSent.current) return;
     emailSent.current = true;
 
     const orderId = Math.random().toString(36).slice(-8).toUpperCase();
@@ -20,8 +22,8 @@ export default function SuccessPage() {
       body: JSON.stringify({
         customerEmail: "hyejin31@gmail.com",
         customerName: "Customer",
-        items,
-        total: totalPrice.toFixed(2),
+        items: savedItems,
+        total: savedTotal.toFixed(2),
         orderId,
       }),
     });
