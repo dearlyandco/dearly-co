@@ -7,6 +7,15 @@ export async function POST(req: NextRequest) {
   try {
     const { items } = await req.json();
 
+    const subtotal = items.reduce((sum: number, item: {
+      price: number;
+      addStand: boolean;
+      standPrice: number;
+      qty: number;
+    }) => sum + (item.price + (item.addStand ? item.standPrice : 0)) * item.qty, 0);
+
+    const isFreeShipping = subtotal >= 50;
+
     const line_items = items.map((item: {
       name: string;
       size: string;
@@ -33,26 +42,29 @@ export async function POST(req: NextRequest) {
       payment_method_types: ["card"],
       line_items,
       mode: "payment",
-      // automatic_tax: { enabled: true },
       success_url: `${req.headers.get("origin")}/checkout/success`,
       cancel_url: `${req.headers.get("origin")}/cart`,
       shipping_address_collection: { allowed_countries: ["US"] },
-      shipping_options: [
-        {
-          shipping_rate_data: {
-            type: "fixed_amount",
-            fixed_amount: { amount: 0, currency: "usd" },
-            display_name: "Free shipping (orders over $50)",
-          },
-        },
-        {
-          shipping_rate_data: {
-            type: "fixed_amount",
-            fixed_amount: { amount: 799, currency: "usd" },
-            display_name: "Standard shipping",
-          },
-        },
-      ],
+      metadata: { items: JSON.stringify(items) },
+      shipping_options: isFreeShipping
+        ? [
+            {
+              shipping_rate_data: {
+                type: "fixed_amount",
+                fixed_amount: { amount: 0, currency: "usd" },
+                display_name: "Free shipping (3–5 business days)",
+              },
+            },
+          ]
+        : [
+            {
+              shipping_rate_data: {
+                type: "fixed_amount",
+                fixed_amount: { amount: 799, currency: "usd" },
+                display_name: "Standard shipping (3–5 business days)",
+              },
+            },
+          ],
     });
 
     return NextResponse.json({ url: session.url });
