@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     `).join("");
 
     await resend.emails.send({
-      from: "Dearly & Co. <onboarding@resend.dev>",
+      from: "Dearly & Co. <no-reply@dearlyandco.com>",
       to: customerEmail,
       subject: "Your Dearly & Co. Order Confirmation 🎉",
       html: `
