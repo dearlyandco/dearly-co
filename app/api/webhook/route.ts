@@ -22,6 +22,7 @@ export async function POST(req: NextRequest) {
     const session = event.data.object as Stripe.Checkout.Session;
 
     const customerEmail = session.customer_details?.email ?? session.customer_email;
+    console.log("[webhook] customerEmail:", customerEmail);
     const customerName = session.customer_details?.name;
     const orderId = session.id.slice(-8).toUpperCase();
     const total = (session.amount_total ?? 0) / 100;
