@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
     const itemRows = items.map((item) => `
       <tr>
         <td style="padding: 12px 0; border-bottom: 1px solid #e8ddd5;">
-          <strong>${item.name}</strong>
+          <strong>${item.name}${item.addStand ? ' + Wood Stand' : ''}</strong>
         </td>
         <td style="padding: 12px 0; border-bottom: 1px solid #e8ddd5; text-align: center; color: #7a6358;">
           Qty: ${item.qty}
@@ -36,19 +36,19 @@ export async function POST(req: NextRequest) {
     `).join("");
 
    const shipping = total - items.reduce((sum: number, item: { price: number; qty: number; addStand?: boolean; standPrice?: number }) => sum + (item.price + (item.addStand ? (item.standPrice ?? 0) : 0)) * item.qty, 0);
-   const shippingRow = shipping > 0 ? `
-      <tr>
-        <td style="padding: 12px 0; border-bottom: 1px solid #e8ddd5;">
-          <strong>Shipping</strong>
-        </td>
-        <td style="padding: 12px 0; border-bottom: 1px solid #e8ddd5; text-align: center; color: #7a6358;">
-          —
-        </td>
-        <td style="padding: 12px 0; border-bottom: 1px solid #e8ddd5; text-align: right;">
-          $${shipping.toFixed(2)}
-        </td>
-      </tr>
-    ` : '';
+   const shippingRow = `
+    <tr>
+      <td style="padding: 12px 0; border-bottom: 1px solid #e8ddd5;">
+        <strong>Shipping</strong>
+      </td>
+      <td style="padding: 12px 0; border-bottom: 1px solid #e8ddd5; text-align: center; color: #7a6358;">
+        —
+      </td>
+      <td style="padding: 12px 0; border-bottom: 1px solid #e8ddd5; text-align: right;">
+        ${shipping === 0 ? 'Free' : '$' + shipping.toFixed(2)}
+      </td>
+    </tr>
+  `;
     await resend.emails.send({
       from: "Dearly & Co. <no-reply@dearlyandco.com>",
       to,
