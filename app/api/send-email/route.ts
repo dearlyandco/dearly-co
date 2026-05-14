@@ -5,7 +5,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 interface OrderItem {
   name: string;
-  quantity: number;
+  qty: number;
   price: number;
 }
 
@@ -25,10 +25,10 @@ export async function POST(req: NextRequest) {
           <strong>${item.name}</strong>
         </td>
         <td style="padding: 12px 0; border-bottom: 1px solid #e8ddd5; text-align: center; color: #7a6358;">
-          Qty: ${item.quantity}
+          Qty: ${item.qty}
         </td>
         <td style="padding: 12px 0; border-bottom: 1px solid #e8ddd5; text-align: right;">
-          $${(item.price * item.quantity).toFixed(2)}
+          $${(item.price * item.qty).toFixed(2)}
         </td>
       </tr>
     `).join("");
