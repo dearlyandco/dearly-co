@@ -33,6 +33,20 @@ export async function POST(req: NextRequest) {
       </tr>
     `).join("");
 
+   const shipping = total - items.reduce((sum: number, item: { price: number; qty: number }) => sum + item.price * item.qty, 0);
+   const shippingRow = shipping > 0 ? `
+      <tr>
+        <td style="padding: 12px 0; border-bottom: 1px solid #e8ddd5;">
+          <strong>Shipping</strong>
+        </td>
+        <td style="padding: 12px 0; border-bottom: 1px solid #e8ddd5; text-align: center; color: #7a6358;">
+          —
+        </td>
+        <td style="padding: 12px 0; border-bottom: 1px solid #e8ddd5; text-align: right;">
+          $${shipping.toFixed(2)}
+        </td>
+      </tr>
+    ` : '';
     await resend.emails.send({
       from: "Dearly & Co. <no-reply@dearlyandco.com>",
       to,
@@ -62,7 +76,7 @@ export async function POST(req: NextRequest) {
                 </tr>
               </thead>
               <tbody>
-                ${itemRows}
+                ${itemRows}${shippingRow}
               </tbody>
             </table>
 
