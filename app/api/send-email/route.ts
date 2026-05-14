@@ -7,6 +7,8 @@ interface OrderItem {
   name: string;
   qty: number;
   price: number;
+  addStand?: boolean;
+  standPrice?: number;
 }
 
 export async function POST(req: NextRequest) {
@@ -28,7 +30,7 @@ export async function POST(req: NextRequest) {
           Qty: ${item.qty}
         </td>
         <td style="padding: 12px 0; border-bottom: 1px solid #e8ddd5; text-align: right;">
-          $${(item.price * item.qty).toFixed(2)}
+          $${((item.price + (item.addStand ? (item.standPrice ?? 0) : 0)) * item.qty).toFixed(2)}
         </td>
       </tr>
     `).join("");
