@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
       </tr>
     `).join("");
 
-   const shipping = total - items.reduce((sum: number, item: { price: number; qty: number }) => sum + item.price * item.qty, 0);
+   const shipping = total - items.reduce((sum: number, item: { price: number; qty: number; addStand?: boolean; standPrice?: number }) => sum + (item.price + (item.addStand ? (item.standPrice ?? 0) : 0)) * item.qty, 0);
    const shippingRow = shipping > 0 ? `
       <tr>
         <td style="padding: 12px 0; border-bottom: 1px solid #e8ddd5;">
